@@ -16,3 +16,5 @@ deploy:
   env: "Dockerkubernetesguide-env"
   bucket_name: "elasticbeanstalk-us-east-2-725582336330"
   bucket_path: "docker_kubernetes_guide"
+  on:
+    branch: master

@@ -7,4 +7,12 @@ before_install:
   - docker build -t kodylow/docker_kubernetes_guide -f Dockerfile.dev .
 
 script:
-  - docker run -e CI=true kodylow/docker_kubernetes_guide npm run test
+  - docker run -e CI=true kodylow/docker_kubernetes_guide npm run test -- --coverage
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app: "docker_kubernetes_guide"
+  env: "Dockerkubernetesguide-env"
+  bucket_name: "elasticbeanstalk-us-east-2-725582336330"
+  bucket_path: "docker_kubernetes_guide"

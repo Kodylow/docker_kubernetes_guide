@@ -19,8 +19,6 @@ const pgClient = new Pool({
   port: keys.pgPort,
 });
 
-pgClient.on("error", () => console.log("Error connecting to Postgres"));
-
 pgClient.on("connect", (client) => {
   client
     .query("CREATE TABLE IF NOT EXISTS values (number INT)")
@@ -29,7 +27,7 @@ pgClient.on("connect", (client) => {
 
 // Redis Client Setup
 const redis = require("redis");
-const redisClient = redi.createClient({
+const redisClient = redis.createClient({
   host: keys.redisHost,
   port: keys.redisPort,
   retry_strategy: () => 1000,
@@ -48,7 +46,7 @@ app.get("/values/all", async (req, res) => {
   res.send(values.rows);
 });
 
-app.get("values/current", (req, res) => {
+app.get("/values/current", async (req, res) => {
   redisClient.hgetall("values", (err, values) => {
     res.send(values);
   });
@@ -69,5 +67,5 @@ app.post("/values", async (req, res) => {
 });
 
 app.listen(5000, (err) => {
-  console.log("Express listening on 5000...");
+  console.log("Listening");
 });
